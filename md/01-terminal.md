@@ -2,6 +2,10 @@
 
 [← README로 돌아가기](../README.md)
 
+### 1) 터미널 기본 조작
+
+현재 위치 확인, 디렉토리 생성/이동, 목록 확인(숨김 파일 포함), 빈 파일 생성, 내용 쓰기/확인, 복사, 이름변경, 삭제를 수행했다.
+
 ```bash
 nam94903505@c5r4s5 ~ % pwd
 /Users/nam94903505
@@ -17,7 +21,7 @@ nam94903505@c5r4s5 practice % cat memo.txt
 hello codyssey
 ```
 
-## 2. 권한 실습
+### 2. 권한 실습
 
 파일 권한 변경 (644 → 600 → 644):
 
@@ -34,7 +38,7 @@ nam94903505@c5r4s5 practice % ls -l memo.txt
 -rw-r--r--  1 nam94903505  nam94903505  15 Jul 28 15:27 memo.txt
 ```
 
-디렉토리 권한 변경 (755 → 700):
+### 3. 디렉토리 권한 변경 (755 → 700):
 
 ```
 nam94903505@c5r4s5 practice % mkdir secret
