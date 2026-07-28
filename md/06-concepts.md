@@ -1,5 +1,7 @@
 ## 11) 개념 정리
 
+[← README로 돌아가기](../README.md)
+
 ### 절대 경로 vs 상대 경로
 
 절대 경로는 루트(/)부터 시작하는 전체 주소로, 현재 위치와 무관하게 항상 같은 대상을 가리킨다(예: /Users/junghyun/codyssey/practice/memo.txt). 상대 경로는 현재 작업 디렉토리 기준의 주소다(예: memo.txt, ../practice/memo.txt). 같은 cat memo.txt라도 다른 디렉토리에서 실행하면 No such file or directory가 나는 것으로 차이를 확인했다.

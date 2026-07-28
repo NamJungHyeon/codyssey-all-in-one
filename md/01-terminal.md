@@ -1,5 +1,7 @@
 ## 1. 터미널 기본 조작
 
+[← README로 돌아가기](../README.md)
+
 ```bash
 nam94903505@c5r4s5 ~ % pwd
 /Users/nam94903505

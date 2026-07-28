@@ -1,5 +1,7 @@
 ## 5. 커스텀 이미지 빌드 (Dockerfile)
 
+[← README로 돌아가기](../README.md)
+
 선택한 베이스: `nginx:alpine` (방식 A — 웹 서버 베이스 + 정적 콘텐츠 교체)
 
 커스텀 포인트와 목적:
