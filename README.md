@@ -1,18 +1,27 @@
 # 🖥️ 개발 워크스테이션 구축
 
-macOS
-
-Docker
-
-Git
-
-GitHub
+![macOS](https://img.shields.io/badge/macOS-000000?style=flat&logo=apple&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker%2029.4.2-2496ED?style=flat&logo=docker&logoColor=white)
+![Git](https://img.shields.io/badge/Git%202.50.1-F05032?style=flat&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
 
 > **코디세이 올인원 과정 — 개발 워크스테이션 미션**
 터미널(CLI), Docker, Git/GitHub를 활용해 "내 컴퓨터에서만 돌아가는" 문제를 줄이는 **재현 가능한 개발 환경**을 구축하고, 모든 수행 과정을 명령어와 출력 결과로 증거화한 저장소입니다.
 > 
 
 ---
+
+## 📂 문서 바로가기
+ 
+| 문서 | 내용 |
+|---|---|
+| [01. 터미널 & 권한](docs/01-terminal.md) | 터미널 기본 조작 로그, 파일/디렉토리 권한 변경 전후 비교 |
+| [02. Docker 기본](docs/02-docker-basics.md) | 설치/데몬 점검, hello-world, ubuntu 실습, run vs exec 관찰, 운영 명령 |
+| [03. 커스텀 이미지 & 네트워크/스토리지](docs/03-custom-image.md) | Dockerfile, 빌드, 포트 매핑, 바인드 마운트, 볼륨 영속성 |
+| [04. Git & GitHub](docs/04-git-github.md) | Git 설정, GitHub 푸시, VSCode 연동 증거 |
+| [05. 트러블슈팅](docs/05-troubleshooting.md) | 실제 겪은 문제 3건 (문제→가설→확인→해결) |
+| [06. 개념 정리](docs/06-concepts.md) | 경로/권한/이미지vs컨테이너/포트/볼륨/Git vs GitHub |
+| [07. 보너스 — Compose](docs/07-bonus-compose.md) | Docker Compose 실습 |
 
 ## 📋 미션 개요
 
@@ -50,17 +59,17 @@ dev-workstation/
 ├── README.md               # 메인 문서 (현재 파일)
 ├── Dockerfile              # 커스텀 NGINX 이미지 정의
 ├── docker-compose.yml      # (보너스) Compose 실행 설정
-├── app/
-│   └── index.html          # 정적 웹 콘텐츠
-├── docs/                   # 수행 로그 상세 문서
-│   ├── 01-terminal.md      # 터미널 조작 + 권한 실습
-│   ├── 02-docker-basics.md # Docker 점검 + 컨테이너 실습
-│   ├── 03-custom-image.md  # 빌드/포트/마운트/볼륨
-│   ├── 04-git-github.md    # Git 설정 + GitHub 연동
-│   ├── 05-troubleshooting.md # 트러블슈팅 모음
-│   ├── 06-concepts.md      # 개념 정리
-│   └── 07-bonus-compose.md # 보너스 과제
-└── screenshots/            # 접속/연동 증거 스크린샷
+ㄴ── app/
+    └── index.html          # 정적 웹 콘텐츠
+md/                   # 수행 로그 상세 문서
+├── 01-terminal.md      # 터미널 조작 + 권한 실습
+├── 02-docker-basics.md # Docker 점검 + 컨테이너 실습
+├── 03-custom-image.md  # 빌드/포트/마운트/볼륨
+├── 04-git-github.md    # Git 설정 + GitHub 연동
+├── 05-troubleshooting.md # 트러블슈팅 모음
+├── 06-concepts.md      # 개념 정리
+└── 07-bonus-compose.md # 보너스 과제
+└── screenshots/        # 접속/연동 증거 스크린샷
 ```
 
 ## 🔍 검증 방법 요약
@@ -76,19 +85,18 @@ dev-workstation/
 | Git 설정 | `git config --list` | 04 |
 
 ## 🔧 트러블슈팅
-
-실습 중 실제로 겪은 문제와 해결 과정: **05. 트러블슈팅**
-
+ 
+실습 중 실제로 겪은 문제와 해결 과정: **[05. 트러블슈팅](docs/05-troubleshooting.md)**
+ 
 1. `docker info` 데몬 연결 실패 → Docker Desktop 미실행이 원인
 2. `mkdir: File exists`로 권한 변경 전/후 비교 불가 → 기존 디렉토리 삭제 후 재실험
 3. 빌드 성공·응답 200인데 빈 페이지 → 빈 index.html이 이미지에 스냅샷된 것이 원인
-
 ## 📚 개념 정리
-
-경로 / 권한 / 이미지 vs 컨테이너 / 포트 매핑 / 볼륨 / Git vs GitHub: **06. 개념 정리**
-
+ 
+경로 / 권한 / 이미지 vs 컨테이너 / 포트 매핑 / 볼륨 / Git vs GitHub: **[06. 개념 정리](docs/06-concepts.md)**
+ 
 ## 🚀 재현 방법
-
+ 
 ```bash
 git clone https://github.com/<아이디>/dev-workstation.git
 cd dev-workstation
