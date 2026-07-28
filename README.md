@@ -1,6 +1,7 @@
 # 개발 워크스테이션 구축 미션
 
 > 터미널(CLI), Docker, Git/GitHub를 활용해 재현 가능한 개발 환경을 구축하고, 수행 과정을 증거와 함께 문서화한 저장소입니다.
+> 
 
 ## 1) 프로젝트 개요
 
@@ -9,29 +10,26 @@
 ## 2) 실행 환경
 
 - OS: macOS
-ProductName:		macOS
-ProductVersion:		26.5.1
-BuildVersion:		25F80
-- Shell: zsh
+- Shell: terminal
 - Terminal: macOS 기본 터미널
 - Docker: 29.4.2 (Docker Desktop)
 - Git: git version 2.50.1
 
 ## 3) 수행 체크리스트
 
-- [ ] 터미널 기본 조작 (pwd/ls/cd/mkdir/touch/cat/cp/mv/rm)
-- [ ] 권한 변경 실습 (파일 1개 + 디렉토리 1개, 전/후 비교)
-- [ ] Docker 설치/데몬 점검 (`docker --version`, `docker info`)
-- [ ] hello-world 실행
-- [ ] ubuntu 컨테이너 진입 및 내부 명령 실행
-- [ ] 컨테이너 종료/유지(run·exit vs exec) 차이 관찰
-- [ ] Docker 운영 명령 (`images`, `ps -a`, `logs`, `stats`)
-- [ ] Dockerfile 작성 및 커스텀 이미지 빌드
-- [ ] 포트 매핑 접속 확인 (2개 포트)
-- [ ] 바인드 마운트 변경 반영 확인
-- [ ] Docker 볼륨 영속성 검증 (컨테이너 삭제 전/후)
-- [ ] Git 설정 (`git config --list`)
-- [ ] VSCode GitHub 로그인 및 저장소 연동
+- [ ]  터미널 기본 조작 (pwd/ls/cd/mkdir/touch/cat/cp/mv/rm)
+- [ ]  권한 변경 실습 (파일 1개 + 디렉토리 1개, 전/후 비교)
+- [ ]  Docker 설치/데몬 점검 (`docker --version`, `docker info`)
+- [ ]  hello-world 실행
+- [ ]  ubuntu 컨테이너 진입 및 내부 명령 실행
+- [ ]  컨테이너 종료/유지(run·exit vs exec) 차이 관찰
+- [ ]  Docker 운영 명령 (`images`, `ps -a`, `logs`, `stats`)
+- [ ]  Dockerfile 작성 및 커스텀 이미지 빌드
+- [ ]  포트 매핑 접속 확인 (2개 포트)
+- [ ]  바인드 마운트 변경 반영 확인
+- [ ]  Docker 볼륨 영속성 검증 (컨테이너 삭제 전/후)
+- [ ]  Git 설정 (`git config --list`)
+- [ ]  VSCode GitHub 로그인 및 저장소 연동
 
 ## 4) 수행 로그
 
@@ -77,7 +75,7 @@ nam94903505@c5r4s5 practice % ls -ld secret
 drwxr-xr-x  2 nam94903505  nam94903505  64 Jul 28 15:31 secret
 
 nam94903505@c5r4s5 practice % chmod 700 secret
-nam94903505@c5r4s5 practice % ls -ld secret 
+nam94903505@c5r4s5 practice % ls -ld secret
 drwx------  2 nam94903505  nam94903505  64 Jul 28 15:31 secret
 ```
 
@@ -196,7 +194,7 @@ hello-world:
 nam94903505@c5r4s5 practice % docker run hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
-4f55086f7dd0: Pull complete 
+4f55086f7dd0: Pull complete
 Digest: sha256:c3cbe1cc1aa588a64951ac6286e0df7b27fe2e6324b1001c619bb358770c0178
 Status: Downloaded newer image for hello-world:latest
 
@@ -216,10 +214,10 @@ To try something more ambitious, you can run an Ubuntu container with:
  $ docker run -it ubuntu bash
 
 Share images, automate workflows, and more with a free Docker ID:
- https://hub.docker.com/
+ <https://hub.docker.com/>
 
 For more examples and ideas, visit:
- https://docs.docker.com/get-started/
+ <https://docs.docker.com/get-started/>
 ```
 
 ubuntu 진입 및 내부 명령:
@@ -228,9 +226,9 @@ ubuntu 진입 및 내부 명령:
 nam94903505@c5r4s5 practice % docker run -it --name ubuntu bash
 Unable to find image 'bash:latest' locally
 latest: Pulling from library/bash
-55afa1ecc21d: Pull complete 
-3aa13943dde2: Pull complete 
-67a7137023b6: Pull complete 
+55afa1ecc21d: Pull complete
+3aa13943dde2: Pull complete
+67a7137023b6: Pull complete
 Digest: sha256:a19c811ee9e97fa8a080001d82b8e0ded303f0795cffdb1cbd162731bc8ce208
 Status: Downloaded newer image for bash:latest
 
@@ -246,8 +244,8 @@ NAME="Alpine Linux"
 ID=alpine
 VERSION_ID=3.24.1
 PRETTY_NAME="Alpine Linux v3.24"
-HOME_URL="https://alpinelinux.org/"
-BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
+HOME_URL="<https://alpinelinux.org/>"
+BUG_REPORT_URL="<https://gitlab.alpinelinux.org/alpine/aports/-/issues>"
 
 bash-5.3# exit
 exit
@@ -272,8 +270,8 @@ ea59025312ef   hello-world   "/hello"                 4 minutes ago   Exited (0)
 nam94903505@c5r4s5 practice % docker run -d --name ubt2 ubuntu sleep infinity
 Unable to find image 'ubuntu:latest' locally
 latest: Pulling from library/ubuntu
-ed819469700f: Pull complete 
-a3679419df18: Pull complete 
+ed819469700f: Pull complete
+a3679419df18: Pull complete
 Digest: sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb
 Status: Downloaded newer image for ubuntu:latest
 06c9300be44d1622bd87ac4a8bfd5e245f9e8f41fed2bc9e6c96a9b14eb94412
@@ -307,8 +305,7 @@ docker run -it ubuntu bash로 실행하면 bash가 컨테이너의 메인 프로
 nam94903505@c5r4s5 practice % docker images
 REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
 bash          latest    bc60f054756d   6 weeks ago    15.6MB
-hello-world   latest    e2ac70e7319a   4 months ago   10.1kB<img width="1059" height="487" alt="Screenshot 2026-07-28 at 4 51 28 PM" src="https://github.com/user-attachments/assets/9460a749-e8e9-4e2e-81a6-d7604c436d6b" />
-
+hello-world   latest    e2ac70e7319a   4 months ago   10.1kB<img width="1059" height="487" alt="Screenshot 2026-07-28 at 4 51 28 PM" src="<https://github.com/user-attachments/assets/9460a749-e8e9-4e2e-81a6-d7604c436d6b>" />
 ```
 
 ### 4-5. 커스텀 이미지 빌드 (Dockerfile)
@@ -318,7 +315,7 @@ hello-world   latest    e2ac70e7319a   4 months ago   10.1kB<img width="1059" he
 커스텀 포인트와 목적:
 
 | 항목 | 목적 |
-|---|---|
+| --- | --- |
 | `FROM nginx:alpine` | 검증된 경량 웹 서버를 베이스로 재사용해 설치 과정 없이 서빙 환경 확보 |
 | `LABEL` | 이미지 제목·관리자 메타데이터를 남겨 이미지 식별성 확보 |
 | `ENV APP_ENV=dev` | 실행 환경 설정을 코드와 분리해 환경 변수로 주입 |
@@ -364,7 +361,7 @@ nam94903505@c5r4s5 dev-workstation % docker build -t my-web:1.0 .
 ```
 
 ```
-nam94903505@c5r4s5 dev-workstation % docker images 
+nam94903505@c5r4s5 dev-workstation % docker images
 REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
 my-web        1.0       1729ef88194a   15 seconds ago   62.4MB
 ubuntu        latest    de7345b16e94   2 weeks ago      100MB
@@ -387,8 +384,9 @@ CONTAINER ID   IMAGE        COMMAND                  CREATED        STATUS      
 
 브라우저 접속 증거 (주소창 포함):
 
-![8080 접속](screenshots/port-8080.png)
-![8081 접속](screenshots/port-8081.png)
+!8080 접속
+
+!8081 접속
 
 포트 매핑이 필요한 이유:
 
@@ -402,7 +400,7 @@ docker run -d -p 8080:80 --name web-bind \
   -v "$(pwd)/app:/usr/share/nginx/html" my-web:1.0
 web-8080
 d51a0e0bbd49c90fb2666c4de67edb6edd48752c655f98fc546edb397b99e7c4
-nam94903505@c5r4s5 dev-workstation % curl http://localhost:8080
+nam94903505@c5r4s5 dev-workstation % curl <http://localhost:8080>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -415,7 +413,7 @@ nam94903505@c5r4s5 dev-workstation % curl http://localhost:8080
     <p>Docker 커스텀 NGINX 이미지에서 서빙 중</p>
 </body>
 </html>%                                                                                                nam94903505@c5r4s5 dev-workstation % echo "<p>bind mount 수정 반영 테스트</p>" >> app/index.html
-nam94903505@c5r4s5 dev-workstation % curl http://localhost:8080
+nam94903505@c5r4s5 dev-workstation % curl <http://localhost:8080>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -438,7 +436,7 @@ mydata
 nam94903505@c5r4s5 dev-workstation % docker volume ls
 DRIVER    VOLUME NAME
 local     mydata
-nam94903505@c5r4s5 dev-workstation % docker run -d --name vol-test -v mydata:/data ubuntu sleep infinity 
+nam94903505@c5r4s5 dev-workstation % docker run -d --name vol-test -v mydata:/data ubuntu sleep infinity
 
 bba26d65e01e6a54a64342f0baa696f4f263996548f564da66d038d7acf5c7d1
 nam94903505@c5r4s5 dev-workstation % docker exec vol-test bash -c "echo persist-test > /data/hello.txt && cat /data/hello.txt"
@@ -473,12 +471,12 @@ init.defaultbranch=main
 
 VSCode GitHub 연동 증거:
 
-![VSCode GitHub 연동](screenshots/vscode-github.png)
+!VSCode GitHub 연동
 
 ## 5) 검증 방법 요약
 
 | 검증 항목 | 사용 명령 | 결과 위치 |
-|---|---|---|
+| --- | --- | --- |
 | Docker 데몬 동작 | `docker info` | 4-3 |
 | 컨테이너 실행 | `docker run`, `docker ps` | 4-4 |
 | 이미지 빌드 | `docker build`, `docker images` | 4-5 |
@@ -491,17 +489,17 @@ VSCode GitHub 연동 증거:
 
 `### 사례 1: docker info 데몬 연결 실패`
 
-- `문제: `docker info` 실행 시 Client 정보는 출력되지만 Server 섹션에서 `failed to connect to the docker API at unix:///Users/junghyun/.docker/run/docker.sock ... check if the daemon is running` 에러 발생`
+- `문제:` docker info`실행 시 Client 정보는 출력되지만 Server 섹션에서`failed to connect to the docker API at unix:///Users/junghyun/.docker/run/docker.sock ... check if the daemon is running `에러 발생`
 - `원인 가설: Docker CLI는 설치되어 있으나 데몬(Docker Desktop)이 실행되지 않아 소켓 파일이 존재하지 않는 것으로 추정`
 - `확인: Docker Desktop 앱이 실행 중이지 않은 상태였음을 확인. 앱 실행 후 메뉴바 아이콘이 안정될 때까지 대기`
-- `해결: Docker Desktop 실행 후 `docker info` 재시도 → Server 섹션에 Server Version 29.4.2 등 정상 출력 확인`
+- `해결: Docker Desktop 실행 후` docker info `재시도 → Server 섹션에 Server Version 29.4.2 등 정상 출력 확인`
 
 `### 사례 2: mkdir 실행 시 File exists 에러`
 
-- `문제: 권한 실습 중 `mkdir secret2` 실행 시 `mkdir: secret2: File exists` 에러가 발생하고, 변경 전(755) 상태를 기록할 수 없었음`
+- `문제: 권한 실습 중` mkdir secret2`실행 시`mkdir: secret2: File exists `에러가 발생하고, 변경 전(755) 상태를 기록할 수 없었음`
 - `원인 가설: 이전 실습에서 동일한 이름의 디렉토리를 이미 생성했고, 그 시점에 chmod 700까지 적용되어 있었던 것으로 추정`
-- `확인: `ls -ld secret2`로 확인 결과 이미 `drwx------`(700) 상태로 존재`
-- `해결: `rm -rf secret2`로 기존 디렉토리를 삭제한 뒤 다시 생성하여, 기본 권한 755(변경 전) → chmod 700(변경 후) 비교 증거를 정상적으로 확보`
+- `확인:` ls -ld secret2`로 확인 결과 이미` drwx------`(700) 상태로 존재`
+- `해결:` rm -rf secret2`로 기존 디렉토리를 삭제한 뒤 다시 생성하여, 기본 권한 755(변경 전) → chmod 700(변경 후) 비교 증거를 정상적으로 확보`
 
 ## 7) 개념 정리
 
@@ -538,5 +536,5 @@ git clone <저장소 URL>
 cd dev-workstation
 docker build -t my-web:1.0 .
 docker run -d -p 8080:80 --name web-8080 my-web:1.0
-curl http://localhost:8080
+curl <http://localhost:8080>
 ```
