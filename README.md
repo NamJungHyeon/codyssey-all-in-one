@@ -38,16 +38,17 @@ BuildVersion:		25F80
 ### 4-1. 터미널 기본 조작
 
 ```bash
-$ pwd
-/Users/junghyun
-
-$ mkdir -p ~/codyssey/practice
-$ cd ~/codyssey/practice
-$ ls -la
+nam94903505@c5r4s5 ~ % pwd
+/Users/nam94903505
+nam94903505@c5r4s5 ~ % mkdir -p ~/codyssey/practice
+nam94903505@c5r4s5 ~ % cd ~/codyssey/practice
+nam94903505@c5r4s5 practice % ls -la
 total 0
-$ touch memo.txt
-$ echo "hello codyssey" > memo.txt
-$ cat memo.txt
+drwxr-xr-x  2 nam94903505  nam94903505  64 Jul 28 15:26 .
+drwxr-xr-x  3 nam94903505  nam94903505  96 Jul 28 15:26 ..
+nam94903505@c5r4s5 practice % touch memo.txt
+nam94903505@c5r4s5 practice % echo "hello codyssey" > memo.txt
+nam94903505@c5r4s5 practice % cat memo.txt
 hello codyssey
 ```
 
@@ -56,69 +57,135 @@ hello codyssey
 파일 권한 변경 (644 → 600 → 644):
 
 ```
-$ ls -l memo.txt
--rw-r--r--  1 junghyun  staff  15  7월 28 11:11 memo.txt    # 변경 전 644
+nam94903505@c5r4s5 practice % ls -l memo.txt
+-rw-r--r--  1 nam94903505  nam94903505  15 Jul 28 15:27 memo.txt
 
-$ chmod 600 memo.txt
-$ ls -l memo.txt
--rw-------  1 junghyun  staff  15  7월 28 11:11 memo.txt    # 변경 후 600
+nam94903505@c5r4s5 practice % chmod 600 memo.txt
+nam94903505@c5r4s5 practice % ls -l memo.txt
+-rw-------  1 nam94903505  nam94903505  15 Jul 28 15:27 memo.txt
 
-$ chmod 644 memo.txt
-$ ls -l memo.txt
--rw-r--r--  1 junghyun  staff  15  7월 28 11:11 memo.txt    # 644로 복원
+nam94903505@c5r4s5 practice % chmod 644 memo.txt
+nam94903505@c5r4s5 practice % ls -l memo.txt
+-rw-r--r--  1 nam94903505  nam94903505  15 Jul 28 15:27 memo.txt
 ```
 
 디렉토리 권한 변경 (755 → 700):
 
 ```
-$ mkdir secret2
-$ ls -ld secret2
-drwxr-xr-x  2 junghyun  staff  64  7월 28 11:36 secret2    # 변경 전 755 (rwxr-xr-x)
+nam94903505@c5r4s5 practice % mkdir secret
+nam94903505@c5r4s5 practice % ls -ld secret
+drwxr-xr-x  2 nam94903505  nam94903505  64 Jul 28 15:31 secret
 
-$ chmod 700 secret2
-$ ls -ld secret2
-drwx------  2 junghyun  staff  64  7월 28 11:36 secret2    # 변경 후 700 (rwx------)
+nam94903505@c5r4s5 practice % chmod 700 secret
+nam94903505@c5r4s5 practice % ls -ld secret 
+drwx------  2 nam94903505  nam94903505  64 Jul 28 15:31 secret
 ```
 
 ### 4-3. Docker 설치 점검
 
 ```
-$ docker --version
-Docker version 29.4.2, build 055a478
+nam94903505@c5r4s5 ~ % docker --version
+Docker version 28.5.2, build ecc6942
 ```
 
 ```
-$ docker info
+$nam94903505@c5r4s5 ~ % docker info
 Client:
- Version:    29.4.2
- Context:    desktop-linux
+ Version:    28.5.2
+ Context:    orbstack
  Debug Mode: false
  Plugins:
   buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/nam94903505/.docker/cli-plugins/docker-buildx
   compose: Docker Compose (Docker Inc.)
-  ...(플러그인 목록 중략)...
+    Version:  v2.40.3
+    Path:     /Users/nam94903505/.docker/cli-plugins/docker-compose
 
 Server:
  Containers: 0
   Running: 0
   Paused: 0
   Stopped: 0
- Images: 2
- Server Version: 29.4.2
- Storage Driver: overlayfs
-  driver-type: io.containerd.snapshotter.v1
+ Images: 0
+ Server Version: 28.5.2
+ Storage Driver: overlay2
+  Backing Filesystem: btrfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
  Logging Driver: json-file
  Cgroup Driver: cgroupfs
  Cgroup Version: 2
- Kernel Version: 6.12.76-linuxkit
- Operating System: Docker Desktop
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc version: d842d7719497cc3b774fd71620278ac9e17710e0
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.17.8-orbstack-00308-g8f9c941121b1
+ Operating System: OrbStack
  OSType: linux
- Architecture: aarch64
- CPUs: 10
- Total Memory: 7.75GiB
- Name: docker-desktop
+ Architecture: x86_64
+ CPUs: 6
+ Total Memory: 15.67GiB
+ Name: orbstack
+ ID: 1016f4bf-cc28-4168-a868-90b818c9132a
  Docker Root Dir: /var/lib/docker
  Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Product License: Community Engine
+ Default Address Pools:
+   Base: 192.168.97.0/24, Size: 24
+   Base: 192.168.107.0/24, Size: 24
+   Base: 192.168.117.0/24, Size: 24
+   Base: 192.168.147.0/24, Size: 24
+   Base: 192.168.148.0/24, Size: 24
+   Base: 192.168.155.0/24, Size: 24
+   Base: 192.168.156.0/24, Size: 24
+   Base: 192.168.158.0/24, Size: 24
+   Base: 192.168.163.0/24, Size: 24
+   Base: 192.168.164.0/24, Size: 24
+   Base: 192.168.165.0/24, Size: 24
+   Base: 192.168.166.0/24, Size: 24
+   Base: 192.168.167.0/24, Size: 24
+   Base: 192.168.171.0/24, Size: 24
+   Base: 192.168.172.0/24, Size: 24
+   Base: 192.168.181.0/24, Size: 24
+   Base: 192.168.183.0/24, Size: 24
+   Base: 192.168.186.0/24, Size: 24
+   Base: 192.168.207.0/24, Size: 24
+   Base: 192.168.214.0/24, Size: 24
+   Base: 192.168.215.0/24, Size: 24
+   Base: 192.168.216.0/24, Size: 24
+   Base: 192.168.223.0/24, Size: 24
+   Base: 192.168.227.0/24, Size: 24
+   Base: 192.168.228.0/24, Size: 24
+   Base: 192.168.229.0/24, Size: 24
+   Base: 192.168.237.0/24, Size: 24
+   Base: 192.168.239.0/24, Size: 24
+   Base: 192.168.242.0/24, Size: 24
+   Base: 192.168.247.0/24, Size: 24
+   Base: fd07:b51a:cc66:d000::/56, Size: 64
+
+WARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is set
 ```
 
 ### 4-4. 컨테이너 기본 실습
@@ -126,11 +193,10 @@ Server:
 hello-world:
 
 ```
-$ docker run hello-world
+nam94903505@c5r4s5 practice % docker run hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
-58dee6a49ef1: Pull complete
-c3bdf82c34d1: Download complete
+4f55086f7dd0: Pull complete 
 Digest: sha256:c3cbe1cc1aa588a64951ac6286e0df7b27fe2e6324b1001c619bb358770c0178
 Status: Downloaded newer image for hello-world:latest
 
@@ -140,81 +206,94 @@ This message shows that your installation appears to be working correctly.
 To generate this message, Docker took the following steps:
  1. The Docker client contacted the Docker daemon.
  2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
-    (arm64v8)
+    (amd64)
  3. The Docker daemon created a new container from that image which runs the
     executable that produces the output you are currently reading.
  4. The Docker daemon streamed that output to the Docker client, which sent it
     to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
 ```
 
 ubuntu 진입 및 내부 명령:
 
 ```
-$ docker run -it --name ubt ubuntu bash
-Unable to find image 'ubuntu:latest' locally
-latest: Pulling from library/ubuntu
-693710ba2039: Pull complete
-55237ac9880d: Pull complete
-fdfb14aa961e: Download complete
-Digest: sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb
-Status: Downloaded newer image for ubuntu:latest
+nam94903505@c5r4s5 practice % docker run -it --name ubuntu bash
+Unable to find image 'bash:latest' locally
+latest: Pulling from library/bash
+55afa1ecc21d: Pull complete 
+3aa13943dde2: Pull complete 
+67a7137023b6: Pull complete 
+Digest: sha256:a19c811ee9e97fa8a080001d82b8e0ded303f0795cffdb1cbd162731bc8ce208
+Status: Downloaded newer image for bash:latest
 
-root@6004bd7d02ed:/# ls /
-bin   dev  home  media  opt   root  sbin  sys  usr
-boot  etc  lib   mnt    proc  run   srv   tmp  var
+bash-5.3# ls /
+bin    etc    lib    mnt    proc   run    srv    tmp    var
+dev    home   media  opt    root   sbin   sys    usr
 
-root@6004bd7d02ed:/# echo "inside container"
+bash-5.3# echo "inside container"
 inside container
 
-root@6004bd7d02ed:/# cat /etc/os-release
-PRETTY_NAME="Ubuntu 26.04 LTS"
-NAME="Ubuntu"
-VERSION_ID="26.04"
-VERSION="26.04 LTS (Resolute Raccoon)"
-VERSION_CODENAME=resolute
-ID=ubuntu
-ID_LIKE=debian
-HOME_URL="https://www.ubuntu.com/"
-SUPPORT_URL="https://help.ubuntu.com/"
-BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
-PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
-UBUNTU_CODENAME=resolute
-LOGO=ubuntu-logo
+bash-5.3# cat /etc/os-release
+NAME="Alpine Linux"
+ID=alpine
+VERSION_ID=3.24.1
+PRETTY_NAME="Alpine Linux v3.24"
+HOME_URL="https://alpinelinux.org/"
+BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
 
-root@6004bd7d02ed:/# exit
+bash-5.3# exit
 exit
 ```
 
 컨테이너 종료/유지 관찰 (run·exit vs exec):
 
 ```
-$ docker ps
+nam94903505@c5r4s5 practice % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
+bash          latest    bc60f054756d   6 weeks ago    15.6MB
+hello-world   latest    e2ac70e7319a   4 months ago   10.1kB
+
+nam94903505@c5r4s5 practice % docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
-$ docker ps -a
-CONTAINER ID   IMAGE         COMMAND    CREATED              STATUS                          PORTS     NAMES
-6004bd7d02ed   ubuntu        "bash"     About a minute ago   Exited (0) 18 seconds ago                 ubt
-6077e847ac7f   hello-world   "/hello"   About a minute ago   Exited (0) About a minute ago             beautiful_kirch
+nam94903505@c5r4s5 practice % docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                          PORTS     NAMES
+cacbfe723a5d   bash          "docker-entrypoint.s…"   2 minutes ago   Exited (0) About a minute ago             ubuntu
+ea59025312ef   hello-world   "/hello"                 4 minutes ago   Exited (0) 4 minutes ago                  jolly_stonebraker
 
-$ docker run -d --name ubt2 ubuntu sleep infinity
-3e73abe7ad6442566f841a28e2ae9d44cd8dd735f9f5b230d651a966d81fd442
+nam94903505@c5r4s5 practice % docker run -d --name ubt2 ubuntu sleep infinity
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+ed819469700f: Pull complete 
+a3679419df18: Pull complete 
+Digest: sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb
+Status: Downloaded newer image for ubuntu:latest
+06c9300be44d1622bd87ac4a8bfd5e245f9e8f41fed2bc9e6c96a9b14eb94412
 
-$ docker exec -it ubt2 bash
-root@3e73abe7ad64:/# exit
+nam94903505@c5r4s5 practice % docker exec -it ubt2 bash
+root@06c9300be44d:/# exit
 exit
 
-$ docker ps
+nam94903505@c5r4s5 practice % docker ps
 CONTAINER ID   IMAGE     COMMAND            CREATED          STATUS          PORTS     NAMES
-3e73abe7ad64   ubuntu    "sleep infinity"   13 seconds ago   Up 13 seconds             ubt2
+06c9300be44d   ubuntu    "sleep infinity"   33 seconds ago   Up 33 seconds             ubt2
 
-$ docker logs ubt2
-(출력 없음 — sleep infinity는 로그를 남기지 않음)
+nam94903505@c5r4s5 practice % docker logs ubt22
+Error response from daemon: No such container: ubt22
 
-$ docker stats --no-stream
-CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT    MEM %     NET I/O         BLOCK I/O    PIDS
-3e73abe7ad64   ubt2      0.00%     1.652MiB / 7.75GiB   0.02%     1.17kB / 126B   0B / 4.1kB   1
+nam94903505@c5r4s5 practice % docker stats --no-stream
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT    MEM %     NET I/O         BLOCK I/O        PIDS
+06c9300be44d   ubt2      0.00%     2.41MiB / 15.67GiB   0.02%     1.13kB / 126B   13.9MB / 4.1kB   1
 
-$ docker stop ubt2
+nam94903505@c5r4s5 practice % docker stop ubt2
 ubt2
 ```
 
@@ -225,12 +304,11 @@ docker run -it ubuntu bash로 실행하면 bash가 컨테이너의 메인 프로
 운영 명령:
 
 ```
-$ docker images
-IMAGE                                      ID             DISK USAGE   CONTENT SIZE   EXTRA
-aibe2_finalproject_compass_be-app:latest   f8e6ce4c74b8   903MB        346MB
-hello-world:latest                         c3cbe1cc1aa5   22.6kB       10.3kB         U
-redis:7-alpine                             bb186d083732   61.4MB       17.7MB
-ubuntu:latest                              3131b4cc82a7   180MB        44.4MB         U
+nam94903505@c5r4s5 practice % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
+bash          latest    bc60f054756d   6 weeks ago    15.6MB
+hello-world   latest    e2ac70e7319a   4 months ago   10.1kB<img width="1059" height="487" alt="Screenshot 2026-07-28 at 4 51 28 PM" src="https://github.com/user-attachments/assets/9460a749-e8e9-4e2e-81a6-d7604c436d6b" />
+
 ```
 
 ### 4-5. 커스텀 이미지 빌드 (Dockerfile)
@@ -270,13 +348,42 @@ ubuntu:latest                              3131b4cc82a7   180MB        44.4MB   
 
 포트 매핑이 필요한 이유:
 
-<!-- 2~3문장 작성 -->
+컨테이너는 호스트와 격리된 자체 네트워크 공간을 가지므로, 컨테이너 내부의 80 포트는 기본적으로 호스트에서 접근할 수 없다. -p <호스트포트>:<컨테이너포트>로 두 포트를 연결해야 외부에서 접속이 가능하다. 같은 이미지를 8080, 8081 두 포트로 동시에 실행해도 충돌 없이 각각 접속되는 것으로 격리와 재현성을 확인했다.
 
 ### 4-7. 바인드 마운트
 
 ```
-<!-- 마운트 실행 명령 + 변경 전 curl + 파일 수정 + 변경 후 curl 로그 붙여넣기 -->
-```
+nam94903505@c5r4s5 dev-workstation % docker rm -f web-8080
+docker run -d -p 8080:80 --name web-bind \
+  -v "$(pwd)/app:/usr/share/nginx/html" my-web:1.0
+web-8080
+d51a0e0bbd49c90fb2666c4de67edb6edd48752c655f98fc546edb397b99e7c4
+nam94903505@c5r4s5 dev-workstation % curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codyssey</title>
+</head>
+<body>
+    <h1>개발 워크스테이션 미션 - 남정현</h1>
+    <p>Docker 커스텀 NGINX 이미지에서 서빙 중</p>
+</body>
+</html>%                                                                                                nam94903505@c5r4s5 dev-workstation % echo "<p>bind mount 수정 반영 테스트</p>" >> app/index.html
+nam94903505@c5r4s5 dev-workstation % curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codyssey</title>
+</head>
+<body>
+    <h1>개발 워크스테이션 미션 - 남정현</h1>
+    <p>Docker 커스텀 NGINX 이미지에서 서빙 중</p>
+</body>
+</html><p>bind mount 수정 반영 테스트</p>```
 
 ### 4-8. Docker 볼륨 영속성
 
