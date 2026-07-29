@@ -16,7 +16,7 @@
 
 빌드/실행:
 
-```
+```bash
 nam94903505@c5r4s5 dev-workstation % docker build -t my-web:1.0 .
 [+] Building 6.8s (7/7) FINISHED                                                        docker:orbstack
  => [internal] load build definition from Dockerfile                                               0.2s
@@ -52,7 +52,7 @@ nam94903505@c5r4s5 dev-workstation % docker build -t my-web:1.0 .
  => => naming to docker.io/library/my-web:1.0
 ```
 
-```
+```bash
 nam94903505@c5r4s5 dev-workstation % docker images 
 REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
 my-web        1.0       1729ef88194a   15 seconds ago   62.4MB
@@ -63,7 +63,7 @@ hello-world   latest    e2ac70e7319a   4 months ago     10.1kB
 
 ## 6. 포트 매핑
 
-```
+```bash
 nam94903505@c5r4s5 dev-workstation % docker run -d -p 8080:80 --name web-8080 my-web:1.0
 docker run -d -p 8081:80 --name web-8081 my-web:1.0
 docker ps
@@ -76,8 +76,8 @@ CONTAINER ID   IMAGE        COMMAND                  CREATED        STATUS      
 
 브라우저 접속 증거 (주소창 포함):
 
-![8080 접속](screenshots/port-8080.png)
-![8081 접속](screenshots/port-8081.png)
+![8080 접속](../screenshots/port-8080.png)
+![8081 접속](../screenshots/port-8081.png)
 
 포트 매핑이 필요한 이유:
 
@@ -85,7 +85,7 @@ CONTAINER ID   IMAGE        COMMAND                  CREATED        STATUS      
 
 ### 4-7. 바인드 마운트
 
-```
+```bash
 nam94903505@c5r4s5 dev-workstation % docker rm -f web-8080
 docker run -d -p 8080:80 --name web-bind \
   -v "$(pwd)/app:/usr/share/nginx/html" my-web:1.0
@@ -121,7 +121,7 @@ nam94903505@c5r4s5 dev-workstation % curl http://localhost:8080
 
 ## 8. Docker 볼륨 영속성
 
-```
+```bash
 nam94903505@c5r4s5 dev-workstation % docker volume create mydata
 mydata
 nam94903505@c5r4s5 dev-workstation % docker volume ls
