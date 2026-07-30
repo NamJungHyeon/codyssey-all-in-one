@@ -1,6 +1,6 @@
 # 05. 트러블슈팅
 
-← README로 돌아가기
+[← README로 돌아가기](../README.md)
 
 ## 사례 1: `docker info` 데몬 연결 실패
 
