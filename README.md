@@ -16,7 +16,7 @@
 | 문서 | 내용 |
 |---|---|
 | [01. 터미널 & 권한](md/01-terminal.md) | 터미널 기본 조작 로그, 파일/디렉토리 권한 변경 전후 비교 |
-| [02. Docker 기본](md/02-docker-basics.md) | 설치/데몬 점검, hello-world, ubuntu 실습, run vs exec 관찰, 운영 명령 |
+| [02. Docker 기본](md/02-doccker-basics.md) | 설치/데몬 점검, hello-world, ubuntu 실습, run vs exec 관찰, 운영 명령 |
 | [03. 커스텀 이미지 & 네트워크/스토리지](md/03-custom-image.md) | Dockerfile, 빌드, 포트 매핑, 바인드 마운트, 볼륨 영속성 |
 | [04. Git & GitHub](md/04-git-github.md) | Git 설정, GitHub 푸시, VSCode 연동 증거 |
 | [05. 트러블슈팅](md/05-troubleshooting.md) | 실제 겪은 문제 3건 (문제→가설→확인→해결) |
