@@ -14,25 +14,25 @@
 | `COPY app/ ...` | NGINX 기본 페이지를 직접 작성한 정적 콘텐츠로 교체 |
 | `HEALTHCHECK` | 컨테이너가 실제로 응답 가능한 상태인지 주기적으로 자동 점검 |
 
-`### Dockerfile`
+### Dockerfile
 
-````dockerfile`
+```dockerfile
 
-`FROM nginx:alpine`
+FROM nginx:alpine
 
-`LABEL org.opencontainers.image.title="my-custom-nginx"`
+LABEL org.opencontainers.image.title="my-custom-nginx"
 
-`LABEL maintainer="njh0820@dongyang.ac.kr"`
+LABEL maintainer="njh0820@dongyang.ac.kr"
 
-`ENV APP_ENV=dev`
+ENV APP_ENV=dev
 
-`COPY app/ /usr/share/nginx/html/`
+COPY app/ /usr/share/nginx/html/
 
-`HEALTHCHECK --interval=30s CMD wget -q -O /dev/null http://localhost || exit 1`
+HEALTHCHECK --interval=30s CMD wget -q -O /dev/null http://localhost || exit 1
 
-`EXPOSE 80`
+EXPOSE 80
 
-`````
+```
 
 빌드/실행:
 
