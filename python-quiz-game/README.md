@@ -25,7 +25,7 @@ JSON 파일 입출력을 직접 사용해 처음부터 끝까지 구현했습니
 Python 3.10 이상이 필요합니다. (개발 환경: Python 3.11)
 
 ```bash
-git clone https://github.com/NamJungHyeon/python-quiz-game.git
+git clone https://github.com/NamJungHyeon/codyssey-all-in-one.git
 cd python-quiz-game
 python3 main.py
 ```
@@ -91,3 +91,5 @@ python-quiz-game/
 - `quizzes`: 등록된 모든 퀴즈 목록 (`question`, `choices`(4개), `answer`(1~4 중 하나의 번호)).
 - `best_score`: 지금까지의 최고 점수. 아직 한 번도 퀴즈를 풀지 않았다면 `null`이며, 이 경우
   "점수 확인" 메뉴에서 안내 메시지를 출력합니다.
+
+> 이 저장소는 clone/commit/push/pull 실습을 통해 검증되었습니다.
