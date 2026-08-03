@@ -1,0 +1,818 @@
+<title>나만의 퀴즈 게임 — 학습 노트</title>
+<style>
+  :root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-2: #e4e8ee;
+    --ink: #1b212b;
+    --ink-soft: #57606f;
+    --ink-faint: #8993a2;
+    --accent: #2f5fa8;
+    --accent-ink: #ffffff;
+    --accent-2: #a8720f;
+    --line: #d9dfe7;
+    --good: #1f7a4c;
+    --bad: #b3402c;
+    --term-bg: #0d1117;
+    --term-ink: #e6edf3;
+    --term-soft: #8b98a8;
+    --code-key: #2f5fa8;
+    --code-str: #1f7a4c;
+    --code-com: #8993a2;
+    --shadow: 0 1px 2px rgba(27,33,43,.04), 0 8px 24px -12px rgba(27,33,43,.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10141a;
+      --surface: #171d25;
+      --surface-2: #1f2732;
+      --ink: #e8ebef;
+      --ink-soft: #9aa4b2;
+      --ink-faint: #6b7684;
+      --accent: #82aeeb;
+      --accent-ink: #0d1420;
+      --accent-2: #e3b15b;
+      --line: #2a323e;
+      --good: #55c090;
+      --bad: #e08571;
+      --term-bg: #0a0d12;
+      --term-ink: #e6edf3;
+      --term-soft: #7c8a9a;
+      --code-key: #82aeeb;
+      --code-str: #55c090;
+      --code-com: #6b7684;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141a; --surface: #171d25; --surface-2: #1f2732;
+    --ink: #e8ebef; --ink-soft: #9aa4b2; --ink-faint: #6b7684;
+    --accent: #82aeeb; --accent-ink: #0d1420; --accent-2: #e3b15b;
+    --line: #2a323e; --good: #55c090; --bad: #e08571;
+    --term-bg: #0a0d12; --term-ink: #e6edf3; --term-soft: #7c8a9a;
+    --code-key: #82aeeb; --code-str: #55c090; --code-com: #6b7684;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"] {
+    --bg: #eef1f5; --surface: #ffffff; --surface-2: #e4e8ee;
+    --ink: #1b212b; --ink-soft: #57606f; --ink-faint: #8993a2;
+    --accent: #2f5fa8; --accent-ink: #ffffff; --accent-2: #a8720f;
+    --line: #d9dfe7; --good: #1f7a4c; --bad: #b3402c;
+    --term-bg: #0d1117; --term-ink: #e6edf3; --term-soft: #8b98a8;
+    --code-key: #2f5fa8; --code-str: #1f7a4c; --code-com: #8993a2;
+    --shadow: 0 1px 2px rgba(27,33,43,.04), 0 8px 24px -12px rgba(27,33,43,.12);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: "Noto Serif KR", "Nanum Myeongjo", Georgia, serif;
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--ink);
+    margin: 0 0 .4em;
+  }
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 48px;
+    padding: 40px 24px 96px;
+  }
+
+  @media (max-width: 880px) {
+    .shell { grid-template-columns: 1fr; gap: 0; padding: 0 0 64px; }
+  }
+
+  /* ---------- 헤더 ---------- */
+  .masthead {
+    grid-column: 1 / -1;
+    padding: 28px 4px 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+  .masthead .eyebrow {
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .masthead h1 { font-size: clamp(1.7rem, 3vw, 2.3rem); margin-bottom: .3em; }
+  .masthead p { color: var(--ink-soft); max-width: 62ch; margin: 0; font-size: .98rem; }
+  .masthead .meta {
+    margin-top: 16px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: .82rem;
+    color: var(--ink-faint);
+  }
+  .masthead .meta a { color: var(--accent); text-decoration: none; }
+  .masthead .meta a:hover { text-decoration: underline; }
+
+  @media (max-width: 880px) {
+    .masthead { padding: 24px 20px; }
+  }
+
+  /* ---------- 사이드 네비 ---------- */
+  .toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    height: max-content;
+    padding: 4px 0;
+  }
+  .toc .toc-label {
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+  .toc li { margin: 0; }
+  .toc a {
+    display: block;
+    padding: 7px 0 7px 16px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: .87rem;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .toc a:hover { color: var(--ink); }
+  .toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 880px) {
+    .toc {
+      position: static;
+      display: flex;
+      overflow-x: auto;
+      gap: 4px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .toc .toc-label { display: none; }
+    .toc ol { display: flex; gap: 4px; border-left: none; }
+    .toc a { padding: 8px 12px; border-left: none; border-radius: 999px; white-space: nowrap; font-size: .82rem; }
+    .toc a.active { background: var(--surface-2); border-left: none; }
+  }
+
+  /* ---------- 본문 ---------- */
+  main { min-width: 0; padding: 0 4px; }
+  @media (max-width: 880px) { main { padding: 8px 20px 0; } }
+
+  section.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 32px clamp(20px, 4vw, 40px);
+    margin-bottom: 28px;
+  }
+  section.card .part {
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  section.card h2 { font-size: 1.4rem; }
+  section.card > p.lead { color: var(--ink-soft); max-width: 68ch; margin-top: 4px; }
+
+  h3 { font-size: 1.02rem; margin-top: 28px; }
+  h3 .tag {
+    display: inline-block;
+    font-family: "Pretendard Variable", sans-serif;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--ink-faint);
+    background: var(--surface-2);
+    border-radius: 5px;
+    padding: 2px 7px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  p { max-width: 70ch; }
+  ul, ol.plain { padding-left: 1.3em; max-width: 68ch; }
+  li { margin: .3em 0; }
+  strong { color: var(--ink); }
+  code.inline {
+    font-family: "D2Coding", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    background: var(--surface-2);
+    border-radius: 4px;
+    padding: .1em .35em;
+    font-size: .88em;
+  }
+
+  /* ---------- 소스 코드 패널 ---------- */
+  .code {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0 18px;
+  }
+  .code .file {
+    font-family: "D2Coding", monospace;
+    font-size: .74rem;
+    color: var(--ink-soft);
+    padding: 7px 14px;
+    border-bottom: 1px solid var(--line);
+    letter-spacing: .02em;
+  }
+  .code pre {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: "D2Coding", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: .84rem;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .code .k { color: var(--code-key); }
+  .code .s { color: var(--code-str); }
+  .code .c { color: var(--code-com); font-style: italic; }
+
+  /* ---------- 터미널 패널 ---------- */
+  .term {
+    background: var(--term-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0 18px;
+    box-shadow: var(--shadow);
+  }
+  .term .bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 12px;
+    background: rgba(255,255,255,.04);
+  }
+  .term .bar span {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+  }
+  .term .bar .name {
+    margin-left: 8px;
+    font-family: "D2Coding", monospace;
+    font-size: .72rem;
+    color: var(--term-soft);
+  }
+  .term pre {
+    margin: 0;
+    padding: 14px 16px 18px;
+    overflow-x: auto;
+    font-family: "D2Coding", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: .82rem;
+    line-height: 1.65;
+    color: var(--term-ink);
+  }
+  .term .ok { color: #6fd39a; }
+  .term .no { color: #ea9686; }
+  .term .warn { color: #e3c15b; }
+  .term .dim { color: var(--term-soft); }
+
+  /* ---------- 개념 그리드 ---------- */
+  .concepts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0 8px;
+  }
+  .concept {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: var(--surface);
+  }
+  .concept .term-name {
+    font-family: "D2Coding", monospace;
+    font-size: .8rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .concept p { margin: 0; font-size: .89rem; color: var(--ink-soft); }
+
+  /* ---------- Git 타임라인 ---------- */
+  .timeline { margin: 18px 0; border-left: 2px solid var(--line); padding-left: 0; list-style: none; }
+  .timeline li {
+    position: relative;
+    padding: 2px 0 16px 22px;
+    font-size: .88rem;
+  }
+  .timeline li::before {
+    content: "";
+    position: absolute;
+    left: -6px; top: 6px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+  }
+  .timeline li.merge::before { border-color: var(--accent-2); background: var(--accent-2); }
+  .timeline .hash {
+    font-family: "D2Coding", monospace;
+    font-size: .74rem;
+    color: var(--ink-faint);
+    margin-right: 6px;
+  }
+  .timeline .type {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    background: var(--surface-2);
+    color: var(--ink-soft);
+  }
+  .timeline .msg { color: var(--ink); }
+  .timeline .branch-note {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: .78rem;
+    color: var(--accent-2);
+  }
+
+  /* ---------- 명령어 표 ---------- */
+  table.cmdtable { width: 100%; border-collapse: collapse; margin: 14px 0 8px; font-size: .89rem; }
+  table.cmdtable th, table.cmdtable td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.cmdtable th { color: var(--ink-faint); font-weight: 600; font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; }
+  table.cmdtable td code.inline { white-space: nowrap; }
+  .cmdtable-wrap { overflow-x: auto; }
+
+  /* ---------- Q&A 리허설 ---------- */
+  .qa { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+  .qa .item {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    background: var(--surface);
+  }
+  .qa .q {
+    font-weight: 700;
+    font-size: .95rem;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .qa .q .qmark {
+    font-family: "Noto Serif KR", serif;
+    color: var(--accent);
+    font-size: 1.1em;
+    flex-shrink: 0;
+  }
+  .qa .a { color: var(--ink-soft); font-size: .9rem; margin: 0; }
+
+  /* ---------- 공식 박스 ---------- */
+  .formula {
+    font-family: "D2Coding", monospace;
+    background: var(--surface-2);
+    border-left: 3px solid var(--accent-2);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: .9rem;
+    margin: 12px 0;
+  }
+
+  footer.end {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: .82rem;
+    padding: 20px 0 4px;
+  }
+</style>
+
+<div class="shell">
+  <header class="masthead">
+    <span class="eyebrow">Study Note · 입학연수 개발 입문 미션</span>
+    <h1>나만의 퀴즈 게임 — 학습 노트</h1>
+    <p>
+      이 문서는 <code class="inline">python-quiz-game</code> 프로젝트를 직접 만든 사람이
+      "왜 이렇게 동작하는지"를 스스로 설명할 수 있도록, 실제 코드와 실제 커밋 로그를 근거로 정리한
+      복습 자료입니다. 미션의 <strong>과제 목표</strong> 항목 순서를 그대로 따라갑니다.
+    </p>
+    <div class="meta">
+      <span>주제: IT/컴퓨터 상식 퀴즈</span>
+      <span>클래스 2개 · Quiz / QuizGame</span>
+      <span>커밋 18개 · 브랜치 병합 1회 · clone·pull 실습 1회</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <span class="toc-label">Contents</span>
+    <ol>
+      <li><a href="#overview">01 · 프로젝트 한눈에</a></li>
+      <li><a href="#python">02 · Python 기초</a></li>
+      <li><a href="#oop">03 · 클래스와 객체</a></li>
+      <li><a href="#file-io">04 · 파일 입출력</a></li>
+      <li><a href="#git">05 · Git 기초</a></li>
+      <li><a href="#bonus">06 · 보너스 기능</a></li>
+      <li><a href="#qa">07 · 설명 리허설</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section class="card" id="overview">
+      <span class="part">Part 01</span>
+      <h2>프로젝트 한눈에</h2>
+      <p class="lead">누가 "이 프로그램이 뭐하는 거야?"라고 물었을 때 30초 안에 할 수 있는 대답.</p>
+
+      <p>
+        터미널에서 실행되는 퀴즈 게임입니다. 메뉴에서 번호를 골라 <strong>퀴즈를 풀고 · 추가하고 ·
+        목록을 보고 · 삭제하고 · 점수를 확인</strong>합니다. 프로그램을 껐다 켜도 추가한 퀴즈와
+        최고 점수가 그대로 남아있는데, 그 이유는 <code class="inline">state.json</code>이라는
+        파일에 매번 상태를 저장하기 때문입니다.
+      </p>
+      <p>
+        주제는 <strong>IT/컴퓨터 상식</strong>으로 정했습니다. 파이썬 문법을 익히는 김에 앞으로
+        계속 마주칠 개념(HTTP 상태 코드, CPU, 비트/바이트, RDBMS, Git 명령어, 운영체제)을 퀴즈로
+        복습하면 일석이조라고 생각했기 때문입니다 — 이 부분이 README의 "주제 선정 이유"입니다.
+      </p>
+
+      <div class="concepts">
+        <div class="concept"><span class="term-name">main.py</span><p>진입점. <code class="inline">QuizGame</code>을 만들고 <code class="inline">run()</code>을 부르는 역할만 합니다.</p></div>
+        <div class="concept"><span class="term-name">quiz.py</span><p><code class="inline">Quiz</code> 클래스. 문제 하나를 표현합니다.</p></div>
+        <div class="concept"><span class="term-name">quiz_game.py</span><p><code class="inline">QuizGame</code> 클래스. 메뉴·진행·저장을 모두 관리합니다.</p></div>
+        <div class="concept"><span class="term-name">data.py</span><p>기본 제공 퀴즈 6개 (IT 상식).</p></div>
+        <div class="concept"><span class="term-name">state.json</span><p>실행 중 생성되는 저장 파일. git에는 안 올라갑니다.</p></div>
+      </div>
+    </section>
+
+    <section class="card" id="python">
+      <span class="part">Part 02</span>
+      <h2>Python 기초 — 실제 코드에서 찾아보기</h2>
+      <p class="lead">문법을 안다는 것과, 그 문법이 실제로 왜 이 자리에 쓰였는지 아는 것은 다릅니다.</p>
+
+      <h3>변수와 자료형 <span class="tag">int · str · bool · list · dict</span></h3>
+      <p>
+        <code class="inline">quiz_game.py</code>의 <code class="inline">_get_int_input</code>
+        안에서 네 가지 자료형이 한 번에 등장합니다.
+      </p>
+      <div class="code">
+        <div class="file">quiz_game.py</div>
+        <pre>text = raw.strip()                 <span class="c"># str — 입력값에서 앞뒤 공백 제거</span>
+if not text.lstrip("-").isdigit(): <span class="c"># bool — 숫자로 바꿀 수 있는지 판정</span>
+    ...
+value = int(text)                  <span class="c"># int — 실제 비교/계산에 쓸 정수로 변환</span></pre>
+      </div>
+      <p>
+        <code class="inline">self.quizzes</code>는 <strong>list</strong>(퀴즈 여러 개를 순서대로
+        담는 상자), <code class="inline">self.best_score</code>는 <strong>dict</strong>
+        (<code class="inline">{"score": .., "correct": .., "total": ..}</code>처럼 이름표를
+        붙여 여러 값을 묶어두는 상자)입니다. 변수를 쓰는 이유는 이 값들이 프로그램이 실행되는
+        동안 계속 바뀌기 때문입니다 — 퀴즈를 추가하면 <code class="inline">quizzes</code> 리스트
+        길이가 늘고, 점수를 갱신하면 <code class="inline">best_score</code> 딕셔너리 내용이
+        바뀝니다.
+      </p>
+
+      <h3>조건문 <span class="tag">if / elif / else</span></h3>
+      <p>메뉴 선택에 따라 다른 동작을 골라야 하니 조건문이 필요합니다.</p>
+      <div class="code">
+        <div class="file">quiz_game.py — run()</div>
+        <pre><span class="k">if</span> choice == 1:
+    self.play_quiz()
+<span class="k">elif</span> choice == 2:
+    self.add_quiz()
+<span class="k">elif</span> choice == 6:
+    self.save_state()
+    <span class="k">break</span></pre>
+      </div>
+
+      <h3>반복문 <span class="tag">for vs while</span></h3>
+      <p>
+        이 프로젝트는 두 반복문을 <strong>용도로 구분</strong>해서 씁니다.
+      </p>
+      <ul>
+        <li><code class="inline">for</code> — <strong>정해진 개수</strong>를 돌 때. 예: 뽑힌
+          문제 목록(<code class="inline">quizzes_to_play</code>)을 처음부터 끝까지 출제할 때.</li>
+        <li><code class="inline">while True</code> — <strong>언제 끝날지 정해져 있지 않을 때</strong>.
+          예: 메뉴 입력을 "올바른 값이 들어올 때까지" 계속 다시 묻는
+          <code class="inline">_get_int_input</code>, 그리고 사용자가 5(현재는 6)번을 눌러
+          종료를 선택할 때까지 도는 게임 메인 루프.</li>
+      </ul>
+      <div class="code">
+        <div class="file">quiz_game.py</div>
+        <pre><span class="k">for</span> index, quiz <span class="k">in</span> enumerate(quizzes_to_play, start=1):  <span class="c"># 개수가 정해져 있음</span>
+    ...
+
+<span class="k">while</span> <span class="k">True</span>:  <span class="c"># 정답을 맞게 입력할 때까지 반복 (몇 번 걸릴지 모름)</span>
+    raw = input(prompt)
+    ...</pre>
+      </div>
+
+      <h3>함수 <span class="tag">매개변수 · 반환값</span></h3>
+      <p>
+        <code class="inline">_get_int_input(prompt, min_value, max_value)</code>가 좋은 예입니다.
+        메뉴 선택(1~6)에도, 정답 입력(0~선택지 수)에도, 삭제할 번호 선택에도 <strong>똑같은
+        검증 로직</strong>이 필요했습니다. 매번 새로 짜는 대신, "어떤 안내문을 보여줄지"와
+        "허용 범위가 어디부터 어디까지인지"를 매개변수로 받고, 검증을 통과한 정수를
+        <code class="inline">return</code>하는 함수 하나로 통일했습니다.
+      </p>
+    </section>
+
+    <section class="card" id="oop">
+      <span class="part">Part 03</span>
+      <h2>클래스와 객체</h2>
+      <p class="lead">왜 함수만으로 안 되고 클래스가 필요했는가.</p>
+
+      <p>
+        함수만 쓰면 "이 퀴즈의 정답이 몇 번이었지?"를 알기 위해 매번 여러 변수를 같이 끌고
+        다녀야 합니다(문제 문자열, 선택지 리스트, 정답 번호, 힌트... 네 개를 따로 관리). 클래스는
+        이 네 가지를 <strong>하나의 덩어리(객체)</strong>로 묶어서, "퀴즈 하나"를
+        <code class="inline">quiz</code>라는 이름 하나로 다룰 수 있게 해줍니다.
+      </p>
+
+      <h3><code class="inline">Quiz</code> 클래스 <span class="tag">데이터 + 그 데이터로 하는 일</span></h3>
+      <div class="code">
+        <div class="file">quiz.py</div>
+        <pre><span class="k">class</span> Quiz:
+    <span class="k">def</span> __init__(self, question, choices, answer, hint=<span class="k">None</span>):
+        self.question = question
+        self.choices = choices
+        self.answer = answer
+        self.hint = hint
+
+    <span class="k">def</span> is_correct(self, user_answer):
+        <span class="k">return</span> user_answer == self.answer</pre>
+      </div>
+      <p>
+        <code class="inline">__init__</code>은 "이 객체가 태어날 때 처음 한 번 실행되는 초기화
+        함수"입니다. <code class="inline">Quiz("CPU란?", [...], 2)</code>처럼 값을 넣어 호출하면
+        그 값들이 <code class="inline">self.question</code>, <code class="inline">self.choices</code>
+        같은 <strong>속성(attribute)</strong>으로 저장됩니다. <code class="inline">self</code>는
+        "지금 만들어지고 있는 바로 이 객체"를 가리키는 이름표라서, 퀴즈가 6개든 100개든 각자
+        자기 자신의 문제·선택지·정답을 따로 기억할 수 있습니다.
+        <code class="inline">is_correct</code>처럼 속성을 이용해 어떤 동작을 하는 함수를 클래스
+        안에 두면 <strong>메서드(method)</strong>라고 부릅니다.
+      </p>
+
+      <h3><code class="inline">QuizGame</code> 클래스 <span class="tag">진행 · 조율 담당</span></h3>
+      <p>
+        <code class="inline">Quiz</code>가 "문제 하나"라면, <code class="inline">QuizGame</code>은
+        "게임 전체"입니다. <code class="inline">self.quizzes</code>(리스트),
+        <code class="inline">self.best_score</code>, <code class="inline">self.history</code>를
+        속성으로 갖고, <code class="inline">play_quiz</code> / <code class="inline">add_quiz</code> /
+        <code class="inline">list_quizzes</code> / <code class="inline">delete_quiz</code> /
+        <code class="inline">show_best_score</code> / <code class="inline">save_state</code> /
+        <code class="inline">load_state</code>를 메서드로 갖습니다. 기능별로 메서드를 나눈
+        덕분에, 예를 들어 "삭제 기능에 버그가 있다"고 하면 <code class="inline">delete_quiz</code>
+        메서드 하나만 보면 됩니다 — 이것이 "역할별로 메서드를 분리한다"는 요구사항의 실제 의미입니다.
+      </p>
+    </section>
+
+    <section class="card" id="file-io">
+      <span class="part">Part 04</span>
+      <h2>파일 입출력과 JSON</h2>
+      <p class="lead">프로그램을 껐다 켜도 데이터가 남아있는 이유.</p>
+
+      <p>
+        파이썬 변수는 프로그램이 끝나면 메모리에서 사라집니다. 그래서 "다음에 실행할 때도
+        기억해야 하는 것"은 <strong>파일</strong>에 적어둬야 합니다. 이 프로젝트는 그 파일로
+        JSON을 씁니다 — JSON은 <code class="inline">{"key": "value"}</code> 형태로 숫자·문자열·
+        리스트·딕셔너리를 그대로 텍스트로 옮겨 적을 수 있어서, 파이썬의 <code class="inline">dict</code>/
+        <code class="inline">list</code> 구조와 거의 1:1로 대응되기 때문입니다.
+      </p>
+
+      <div class="code">
+        <div class="file">quiz_game.py — save_state / load_state</div>
+        <pre><span class="k">def</span> save_state(self):
+    data = {"quizzes": [...], "best_score": ..., "history": ...}
+    <span class="k">try</span>:
+        <span class="k">with</span> open(STATE_FILE, "w", encoding="utf-8") <span class="k">as</span> f:
+            json.dump(data, f, ensure_ascii=<span class="k">False</span>, indent=2)
+    <span class="k">except</span> OSError <span class="k">as</span> error:
+        print(<span class="s">f"⚠️ 데이터 저장 중 오류가 발생했습니다: {error}"</span>)
+
+<span class="k">def</span> load_state(self):
+    <span class="k">if</span> <span class="k">not</span> os.path.exists(STATE_FILE):
+        self.quizzes = list(DEFAULT_QUIZZES)   <span class="c"># 최초 실행 → 기본 데이터</span>
+        <span class="k">return</span>
+    <span class="k">try</span>:
+        <span class="k">with</span> open(STATE_FILE, "r", encoding="utf-8") <span class="k">as</span> f:
+            data = json.load(f)
+        self.quizzes = [Quiz.from_dict(q) <span class="k">for</span> q <span class="k">in</span> data["quizzes"]]
+    <span class="k">except</span> (json.JSONDecodeError, KeyError, TypeError, OSError):
+        print(<span class="s">"⚠️ 저장된 데이터 파일이 손상되어 기본 퀴즈 데이터로 초기화합니다."</span>)
+        self.quizzes = list(DEFAULT_QUIZZES)</pre>
+      </div>
+
+      <p>
+        <code class="inline">try/except</code>가 두 번 등장하는 이유가 다릅니다. 저장할 때는
+        디스크 오류(<code class="inline">OSError</code>) 대비용이고, 불러올 때는 파일이 깨져서
+        JSON으로 못 읽는 경우(<code class="inline">JSONDecodeError</code>)나 구조가 이상한 경우
+        (<code class="inline">KeyError</code>)까지 함께 대비합니다. 둘 다 "예외가 나도 프로그램이
+        죽지 않고, 기본 퀴즈로 복구해서 계속 실행된다"는 요구사항을 지키기 위한 장치입니다.
+      </p>
+
+      <div class="term">
+        <div class="bar"><span></span><span></span><span></span><span class="name">state.json이 깨진 상태에서 실행</span></div>
+        <pre><span class="warn">⚠️ 저장된 데이터 파일이 손상되어 기본 퀴즈 데이터로 초기화합니다.</span>
+📂 저장된 데이터를 불러왔습니다. (퀴즈 6개, 최고점수 없음)</pre>
+      </div>
+    </section>
+
+    <section class="card" id="git">
+      <span class="part">Part 05</span>
+      <h2>Git 기초</h2>
+      <p class="lead">이 저장소에서 실제로 밟은 절차. "무엇을 했는지"가 아니라 "왜 그 명령이었는지"를 기준으로 정리했습니다.</p>
+
+      <div class="cmdtable-wrap">
+        <table class="cmdtable">
+          <thead><tr><th>명령어</th><th>이 프로젝트에서 한 일</th><th>왜 필요했나</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">git init -b main</code></td><td>빈 폴더를 저장소로 전환</td><td>변경 이력을 추적하려면 먼저 git의 관리 대상이 되어야 함</td></tr>
+            <tr><td><code class="inline">git add</code></td><td>수정한 파일을 커밋 후보(스테이징)로 등록</td><td>한 번에 여러 파일을 고쳐도, 커밋에는 의미 단위로만 묶어 넣기 위함</td></tr>
+            <tr><td><code class="inline">git commit</code></td><td>18개의 기능 단위 스냅샷 기록</td><td>"언제 무엇이 왜 바뀌었는지"를 나중에 되짚을 수 있게 함</td></tr>
+            <tr><td><code class="inline">git push</code></td><td>로컬 커밋을 GitHub 원격 저장소로 전송</td><td>내 컴퓨터가 망가져도 코드가 남고, 남과 공유 가능</td></tr>
+            <tr><td><code class="inline">git checkout -b feature/quiz-play</code></td><td>퀴즈 풀기 기능 전용 브랜치 생성·이동</td><td>아직 불안정한 기능을 <code class="inline">main</code>과 분리해서 안전하게 개발</td></tr>
+            <tr><td><code class="inline">git merge --no-ff</code></td><td>완성된 <code class="inline">feature/quiz-play</code>를 <code class="inline">main</code>에 병합</td><td>분리해서 만든 기능을 다시 하나의 흐름으로 합침</td></tr>
+            <tr><td><code class="inline">git clone</code></td><td>같은 저장소를 별도 폴더에 복제</td><td>"다른 컴퓨터에서 이 프로젝트를 새로 내려받는 상황"을 재현</td></tr>
+            <tr><td><code class="inline">git pull</code></td><td>clone한 쪽에서 만든 커밋을 원래 작업 폴더로 반영</td><td>원격에 생긴 변경사항을 내 로컬로 가져오는 절차를 실습</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>실제 커밋 흐름 <span class="tag">git log --oneline --graph</span></h3>
+      <ul class="timeline">
+        <li><span class="type">Chore</span><span class="hash">61d953c</span><span class="msg">프로젝트 초기 설정 (.gitignore, README 뼈대 추가)</span></li>
+        <li><span class="type">Feat</span><span class="hash">bcc31f2</span><span class="msg">메뉴 출력 및 입력 검증 기본 골격 구현</span></li>
+        <li><span class="type">Feat</span><span class="hash">f70cd8e</span><span class="msg">Quiz 클래스 구현</span></li>
+        <li><span class="type">Feat</span><span class="hash">1940236</span><span class="msg">IT 상식 기본 퀴즈 데이터 6개 추가</span>
+          <div class="branch-note">↳ 여기서 <code class="inline">feature/quiz-play</code> 브랜치 생성</div></li>
+        <li><span class="type">Feat</span><span class="hash">94131a5</span><span class="msg">퀴즈 풀기 기능 구현 (브랜치 위에서 작업)</span></li>
+        <li class="merge"><span class="type">Merge</span><span class="hash">45768ca</span><span class="msg">feature/quiz-play → main 병합</span></li>
+        <li><span class="type">Feat</span><span class="hash">467f8ee</span><span class="msg">퀴즈 추가 기능 구현</span></li>
+        <li><span class="type">Feat</span><span class="hash">fef1b9e</span><span class="msg">퀴즈 목록 기능 구현</span></li>
+        <li><span class="type">Feat</span><span class="hash">69f8c55</span><span class="msg">점수 확인 기능 구현</span></li>
+        <li><span class="type">Feat</span><span class="hash">b18039e</span><span class="msg">state.json 저장/불러오기 구현</span></li>
+        <li><span class="type">Refactor</span><span class="hash">d2e8ee6</span><span class="msg">EOFError/KeyboardInterrupt 예외 처리 강화</span></li>
+        <li><span class="type">Docs</span><span class="hash">abe02aa</span><span class="msg">README 작성</span></li>
+        <li><span class="type">Docs</span><span class="hash">856dd9c</span><span class="msg">clone한 저장소에서 커밋 → push</span>
+          <div class="branch-note">↳ 원래 폴더에서 <code class="inline">git pull</code>로 반영 확인</div></li>
+        <li><span class="type">Feat</span><span class="hash">6257108…</span><span class="msg">보너스 기능 4개 + README 갱신 (총 5커밋)</span></li>
+      </ul>
+
+      <p>
+        <strong>왜 이 순서인가</strong> — 클래스도 없이 메뉴부터 만든 이유는, 조건문/함수만으로
+        "껍데기"가 먼저 동작하는 걸 보고 싶었기 때문입니다. 그 다음 <code class="inline">Quiz</code>를
+        만들고, 데이터를 채우고, 그제서야 실제로 "풀 수 있는" 기능을 브랜치에서 만들었습니다.
+        파일 저장은 일부러 마지막 쪽에 뒀는데, 메모리 위의 리스트로 기능이 다 동작하는 걸 먼저
+        확인한 뒤에 "이제 이걸 파일로도 남기자"는 순서가 자연스러웠기 때문입니다.
+      </p>
+    </section>
+
+    <section class="card" id="bonus">
+      <span class="part">Part 06</span>
+      <h2>보너스 기능 — 동작 원리</h2>
+      <p class="lead">다섯 가지 모두 구현했고, 서로 연결되어 있습니다.</p>
+
+      <h3>랜덤 출제 + 문제 수 선택 <span class="tag">random</span></h3>
+      <div class="code">
+        <div class="file">quiz_game.py — play_quiz</div>
+        <pre>total = self._get_int_input(<span class="s">f"몇 문제를 풀까요? (1-{available}): "</span>, 1, available)
+quizzes_to_play = random.sample(self.quizzes, total)</pre>
+      </div>
+      <p>
+        <code class="inline">random.sample(목록, 개수)</code>는 목록에서 중복 없이 <code class="inline">개수</code>만큼을
+        <strong>무작위 순서로</strong> 뽑아줍니다. "몇 개를 뽑을지"와 "순서를 섞을지"를 한 줄로
+        동시에 해결하기 때문에, 문제 수 선택 기능과 랜덤 출제 기능이 사실상 같은 코드에서 나옵니다.
+      </p>
+
+      <h3>힌트 기능 <span class="tag">점수 차감</span></h3>
+      <p>
+        정답 대신 <code class="inline">0</code>을 입력하면 <code class="inline">quiz.show_hint()</code>가
+        힌트를 보여주고, 그 문제에 힌트를 썼다는 사실만 기록합니다(같은 문제에서 여러 번 눌러도
+        1회로 계산). 최종 점수는 다음 공식으로 계산합니다.
+      </p>
+      <div class="formula">score = max(0, round(정답수 / 전체문제수 × 100) − 힌트사용문제수 × 5)</div>
+
+      <h3>퀴즈 삭제</h3>
+      <p>
+        메뉴 목록을 그대로 보여준 뒤 번호를 받아 <code class="inline">self.quizzes.pop(index - 1)</code>로
+        제거합니다. 메뉴에 항목이 하나 늘면서 <code class="inline">종료</code>가 5번에서 6번으로
+        밀렸고, 그래서 <code class="inline">MENU_MAX</code>도 5에서 6으로 바뀌었습니다.
+      </p>
+
+      <h3>점수 기록 히스토리</h3>
+      <p>
+        퀴즈를 풀 때마다 <code class="inline">{"timestamp", "total", "correct", "score", "hints_used"}</code>
+        한 줄이 <code class="inline">self.history</code> 리스트에 쌓입니다. "점수 확인" 화면에서는
+        전체를 다 보여주지 않고 <code class="inline">self.history[-5:]</code>로 최근 5개만,
+        <code class="inline">reversed()</code>로 최신순으로 보여줍니다.
+      </p>
+
+      <div class="term">
+        <div class="bar"><span></span><span></span><span></span><span class="name">힌트를 1회 사용한 결과</span></div>
+        <pre>🏆 결과: 3문제 중 1문제 정답! (<span class="no">28점</span>, <span class="warn">힌트 1회 사용</span>)
+<span class="ok">🎉 새로운 최고 점수입니다!</span></pre>
+      </div>
+    </section>
+
+    <section class="card" id="qa">
+      <span class="part">Part 07</span>
+      <h2>설명 리허설</h2>
+      <p class="lead">미션의 "과제 목표" 문구를 그대로 질문으로 바꿨습니다. 소리 내어 대답해보세요.</p>
+
+      <div class="qa">
+        <div class="item">
+          <p class="q"><span class="qmark">Q.</span> 변수가 무엇이고 왜 쓰나요?</p>
+          <p class="a">이름이 붙은 저장 공간입니다. <code class="inline">self.best_score</code>처럼
+          실행 중에 값이 바뀌는 것들을 담아두려면 변수가 있어야 합니다 — 값이 절대 안 바뀐다면
+          애초에 변수가 필요 없었을 겁니다.</p>
+        </div>
+        <div class="item">
+          <p class="q"><span class="qmark">Q.</span> <code class="inline">for</code>와 <code class="inline">while</code>은 언제 각각 쓰나요?</p>
+          <p class="a">몇 번 반복할지 이미 알고 있으면 <code class="inline">for</code>(출제할 문제
+          6개를 순서대로), 몇 번 걸릴지 모르고 "조건이 만족될 때까지" 반복하면
+          <code class="inline">while</code>(올바른 숫자가 입력될 때까지).</p>
+        </div>
+        <div class="item">
+          <p class="q"><span class="qmark">Q.</span> <code class="inline">__init__</code>과 <code class="inline">self</code>의 역할은?</p>
+          <p class="a"><code class="inline">__init__</code>은 객체가 생성되는 순간 실행되는
+          초기화 메서드이고, <code class="inline">self</code>는 지금 만들어지는 그 객체 자신을
+          가리킵니다. 그래서 <code class="inline">Quiz</code> 6개를 만들어도 각자 자기 문제/정답을
+          따로 갖습니다.</p>
+        </div>
+        <div class="item">
+          <p class="q"><span class="qmark">Q.</span> JSON을 왜 데이터 저장에 쓰나요?</p>
+          <p class="a">파이썬의 리스트·딕셔너리 구조를 거의 그대로 텍스트로 적고, 다시 그대로
+          읽어올 수 있기 때문입니다. <code class="inline">json.dump</code>로 쓰고
+          <code class="inline">json.load</code>로 읽으면 끝이라 변환 코드를 따로 짤 필요가 없습니다.</p>
+        </div>
+        <div class="item">
+          <p class="q"><span class="qmark">Q.</span> <code class="inline">clone</code>과 <code class="inline">pull</code>의 차이는?</p>
+          <p class="a"><code class="inline">clone</code>은 저장소가 로컬에 아예 없을 때 "처음
+          통째로 내려받는" 것이고, <code class="inline">pull</code>은 이미 있는 로컬 저장소에
+          "원격에 새로 생긴 커밋만 가져와 반영"하는 것입니다. 이 프로젝트에서는 별도 폴더에
+          clone한 뒤 그곳에서 커밋·push하고, 원래 폴더에서 pull로 그 변경을 받아왔습니다.</p>
+        </div>
+        <div class="item">
+          <p class="q"><span class="qmark">Q.</span> 브랜치를 만들고 병합한다는 게 실제로 뭘 한 건가요?</p>
+          <p class="a"><code class="inline">main</code>을 안전하게 두고
+          <code class="inline">feature/quiz-play</code>라는 별도 작업 공간에서 퀴즈 풀기 기능을
+          완성한 뒤, <code class="inline">git merge</code>로 그 결과를 다시
+          <code class="inline">main</code>에 합쳤습니다. 개발 중인 코드가 안정된 코드와 섞이지
+          않게 하는 것이 목적입니다.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="end">python-quiz-game · github.com/NamJungHyeon/python-quiz-game</footer>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var sections = links.map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  });
+
+  if (!('IntersectionObserver' in window)) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var idx = sections.indexOf(entry.target);
+      if (idx === -1) return;
+      if (entry.isIntersecting) {
+        links.forEach(function (l) { l.classList.remove('active'); });
+        links[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(function (s) { if (s) observer.observe(s); });
+})();
+</script>
