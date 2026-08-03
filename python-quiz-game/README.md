@@ -25,7 +25,7 @@ JSON 파일 입출력을 직접 사용해 처음부터 끝까지 구현했습니
 Python 3.10 이상이 필요합니다. (개발 환경: Python 3.11)
 
 ```bash
-git clone https://github.com/NamJungHyeon/python-quiz-game.git
+git clone https://github.com/NamJungHyeon/codyssey-all-in-one.git
 cd python-quiz-game
 python3 main.py
 ```
