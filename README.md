@@ -18,6 +18,7 @@
 | 프로젝트 | 설명 |
 | --- | --- |
 | [python-quiz-game](python-quiz-game/README.md) | Python 클래스(`Quiz`/`QuizGame`)와 JSON 파일 저장(`state.json`)으로 만든 터미널 퀴즈 게임. 주제: IT/컴퓨터 상식. 힌트·랜덤 출제·기록 히스토리 등 보너스 기능 포함 |
+| [mini-npu-simulator](mini-npu-simulator/README.md) | MAC(Multiply-Accumulate) 연산을 반복문으로 직접 구현한 Mini NPU 시뮬레이터. 3×3 사용자 입력과 5×5/13×13/25×25 `data.json` 배치 분석, 허용오차(epsilon) 기반 동점 처리, 크기별 성능(O(N²)) 분석 포함 |
 
 ---
 
