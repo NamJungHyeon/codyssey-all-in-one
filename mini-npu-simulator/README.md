@@ -92,7 +92,7 @@ python3 main.py
 | 2. 모드 1 판정 불가 | ![모드 1 판정 불가](screenshots/02_mode1_undecided.png) |
 | 3. 모드 1 입력 검증 | ![모드 1 입력 검증](screenshots/03_mode1_input_validation.png) |
 | 4. 모드 2 필터/패턴 매칭 | ![모드 2 필터·패턴 매칭](screenshots/04_mode2_load_and_match.png) |
-| 5. 라벨 정규화 | ![라벨 정규화](screenshots/05_mode2_label_normalization.png) |
+| 5. 라벨 정규화 | ![라벨 정규화](screenshots/04_mode2_load_and_match.png) |
 | 6. 모드 2 UNDECIDED/FAIL | ![모드 2 UNDECIDED와 FAIL 집계](screenshots/06_mode2_undecided_fail.png) |
 | 7. 성능 분석 표 | ![성능 분석 표](screenshots/07_mode2_performance_table.png) |
 | 8. 결과 요약 | ![결과 요약](screenshots/08_mode2_summary.png) |
