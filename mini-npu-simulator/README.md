@@ -14,11 +14,15 @@ python3 main.py
 
 ## 구현 요약
 
-- **데이터 구조**: `make_grid`/`get_value`/`set_value`로 n×n 그리드를 생성·조회·저장합니다. `compute_mac`은 이 두 함수만으로 위치별 곱셈·누적을 수행합니다(`main.py`).
-- **MAC 연산**: 반복문 두 겹으로 패턴과 필터를 같은 위치끼리 곱해 모두 더합니다. NumPy 등 벡터화 라이브러리는 사용하지 않았습니다.
-- **라벨 정규화**: `normalize_label`이 `expected`의 `'+'`/`'x'`와 필터 키의 `'cross'`/`'x'`를 모두 표준 라벨 `Cross`/`X`로 통일합니다. 대소문자와 공백도 함께 정리합니다.
-- **동점(부동소수점) 처리 정책**: `decide()`가 `abs(score_a - score_b) < 1e-9`이면 `UNDECIDED`를 반환합니다. 점수가 다른 경로(단일 곱셈 vs 여러 번의 덧셈 누적)로 계산될 경우 수학적으로 같은 값이라도 이진 부동소수점 표현 때문에 마지막 자리에서 미세하게 어긋날 수 있기 때문입니다.
-- **스키마 검증**: `data.json`의 각 패턴 키에서 정규식으로 크기(N)를 추출해 해당 `size_N` 필터를 찾고, 크기 불일치·필터 없음·라벨 인식 불가 등은 케이스 단위 FAIL로 처리해 프로그램 전체가 중단되지 않도록 했습니다(`analyze_pattern`).
+- **모듈 구성**: 역할별로 클래스를 나누고 파일도 그에 맞춰 분리했습니다. `main.py`는 모드를 선택해 실행하는 진입점만 담당하고, 실제 로직은 아래 "파일 구조"의 각 모듈에 있습니다.
+- **데이터 구조**: `Grid` 클래스(`grid.py`)가 n×n 값을 저장하고 `get`/`set`으로 좌표 접근을 제공합니다. JSON에서 읽은 2차원 리스트도 `Grid.from_rows()`로 같은 자료구조에 담아 다룹니다.
+- **MAC 연산**: `MacUnit.compute()`(`mac_unit.py`)가 반복문 두 겹으로 패턴과 필터를 같은 위치끼리 곱해 모두 더합니다. NumPy 등 벡터화 라이브러리는 사용하지 않았습니다.
+- **라벨 정규화**: `LabelNormalizer`(`labels.py`)가 `expected`의 `'+'`/`'x'`뿐 아니라 필터 딕셔너리의 키(`cross`/`x`)도 같은 `normalize()`로 정규화해서 찾습니다(`find_filter()`). 그래서 필터 키의 대소문자가 달라도(`Cross`/`X` 등) 정상적으로 필터를 찾습니다.
+- **동점(부동소수점) 처리 정책**: `Judge.decide()`(`judge.py`)가 `abs(score_a - score_b) < 1e-9`이면 `UNDECIDED`를 반환합니다. 점수가 다른 경로(단일 곱셈 vs 여러 번의 덧셈 누적)로 계산될 경우 수학적으로 같은 값이라도 이진 부동소수점 표현 때문에 마지막 자리에서 미세하게 어긋날 수 있기 때문입니다.
+- **스키마 검증**: `PatternAnalyzer`(`pattern_analyzer.py`)가 각 패턴 키(`size_5_1` 등)를 `_`로 나눠 크기(N)를 추출하고(`get_pattern_size`, 정규식 없이 문자열 분리만 사용) 해당 `size_N` 필터를 찾습니다. 크기 불일치·필터 없음·라벨 인식 불가 등은 `analyze()`가 예외를 던지는 대신 결과 딕셔너리의 `reason`에 사유를 담아 케이스 단위 FAIL로 처리해서 프로그램 전체가 중단되지 않습니다.
+- **필터 로드 상태 표시**: `size_5`/`size_13`/`size_25` 같은 최상위 키가 있는지뿐 아니라, 그 안에 `Cross`/`X`로 정규화되는 필터가 실제로 둘 다 존재하는지까지 `PatternAnalyzer.has_filter_pair()`로 확인한 뒤 `✓`를 출력합니다.
+- **성능 분석**: `PerformanceBenchmark`(`performance.py`)가 크기별로 `PatternGenerator.cross(n)`(`pattern_generator.py`)을 직접 생성해 벤치마크합니다. MAC 연산 시간은 값의 내용이 아니라 크기(N)에만 영향을 받으므로, `data.json`에 해당 크기의 패턴이 있는지와 무관하게 항상 동일한 방식으로 3×3/5×5/13×13/25×25를 측정할 수 있습니다.
+- **입출력/모드 실행**: `ConsoleIO`(`console_io.py`)가 입력 검증을, `Mode1App`/`Mode2App`(`modes.py`)이 각 모드의 흐름(입력 → 연산 → 판정 → 성능 분석 → 출력)을 담당합니다.
 
 ## 결과 리포트
 
@@ -69,9 +73,20 @@ python3 main.py
 
 ## 파일 구조
 
+역할별 클래스를 파일 단위로 나눴습니다. `main.py`는 모드 선택 후 `Mode1App`/`Mode2App`을 실행하는 진입점만 담당합니다.
+
 ```
 mini-npu-simulator/
-├── main.py      # 메인 실행 파일 (모드 1/2, MAC 연산, 라벨 정규화, 성능 측정)
-├── data.json    # 필터(5×5/13×13/25×25)와 패턴 데이터
-└── README.md    # 이 문서
+├── main.py              # 진입점: 모드 선택 → Mode1App/Mode2App 실행
+├── grid.py              # Grid: n×n 데이터 저장/조회 자료구조
+├── pattern_generator.py # PatternGenerator: Cross/X 패턴 자동 생성 (성능 측정용)
+├── mac_unit.py          # MacUnit: MAC(Multiply-Accumulate) 연산
+├── labels.py            # LabelNormalizer: expected/필터 키 라벨 정규화
+├── judge.py             # Judge: epsilon 기반 점수 비교/판정
+├── performance.py       # PerformanceBenchmark: 반복 측정 및 크기별 벤치마크
+├── pattern_analyzer.py  # PatternAnalyzer: data.json 로드, 스키마 검증, 패턴별 분석
+├── console_io.py        # ConsoleIO: 콘솔 입력 검증/읽기
+├── modes.py             # Mode1App/Mode2App: 모드별 실행 흐름과 출력
+├── data.json             # 필터(5×5/13×13/25×25)와 패턴 데이터
+└── README.md             # 이 문서
 ```
